@@ -1,0 +1,9 @@
+function y=f_search(t)
+%
+% 一维搜索求最小值
+%
+global x p
+xx0=x+t.*p;
+r=5;
+TextF=@(xx)fun(xx)+r*(sum(max(g(xx),0).^2)+sum(h(xx).^2));
+y=TextF(xx0);

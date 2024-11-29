@@ -1,0 +1,37 @@
+function y=dfun(x)
+x=x';
+
+syms x1 x2
+M=1;
+
+%定义目标函数
+fx = fun([x1 x2]);
+fx_x1 = diff(fx,x1);
+fx_x2 = diff(fx,x1);
+
+y(1) = subs(fx_x1,[x1,x2],x);
+y(2) = subs(fx_x2,[x1,x2],x);
+
+%可定义多个不等式约束条件gx(1)>=0
+
+gx = g([x1 x2]);
+
+%可定义多个等式约束
+% gx(1) = x1+x2-4;
+
+for i = 1:numel(gx)
+    gx_x1=diff(gx(i),x1);
+    gx_x2=diff(gx(i),x2);
+    gx_x1_val=subs(gx_x1,[x1,x2],x);
+    gx_x2_val=subs(gx_x2,[x1,x2],x);
+    gx_val= subs(gx,[x1,x2],x);
+    
+    if gx_val(i) < 0;
+        y(1) =y(1) - 2*M* gx_val(i)*gx_x1_val(i);
+        y(2) =y(2) - 2*M* gx_val(i)*gx_x2_val(i);
+    end
+    
+end
+
+
+
